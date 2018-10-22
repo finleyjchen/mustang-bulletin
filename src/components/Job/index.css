@@ -1,0 +1,16 @@
+.profile-img {
+    width: 50%;
+    border-radius: 200px;
+    text-align: center;
+    display: block;
+    margin: auto;
+  }
+
+.profile-link {
+    color:#444;
+}
+
+.profile-link:hover {
+    color:#444;
+    text-decoration: none;
+}

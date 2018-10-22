@@ -1,0 +1,23 @@
+.navbar {
+  background-color: #035642;
+}
+
+.navbar a {
+  color: #fff;
+}
+
+.dropdown-item a {
+  color:inherit;
+}
+
+.dropdown-item a:hover {
+  text-decoration: none;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: #fff;
+  text-decoration: none;
+  background-color: #035642;
+}
+.nav-link:hover {
+}
