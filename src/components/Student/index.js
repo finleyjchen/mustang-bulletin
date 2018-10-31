@@ -33,30 +33,32 @@ class Student extends Component {
 const StudentData = ({ data }) => (
   <div>
     {Object.keys(data).map(key => (
-      <Table key={key}>
-        <h1>
-          {data[key].username}
+      <div>
+        <h1 key={key}>
+          {data[key].displayname}
           's Profile
         </h1>
-        <tbody>
-          <tr>
-            <th>Name</th>
-            <td>{data[key].displayname}</td>
-          </tr>
-          <tr>
-            <th>Email</th>
-            <td>
-              {data[key].email}{" "}
-              <a
-                className="btn btn-primary btn-sm"
-                href={`mailto:${data[key].email}`}
-              >
-                <FiMail />
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+        <Table key={key}>
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <td>{data[key].displayname}</td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>
+                {data[key].email}{" "}
+                <a
+                  className="btn btn-primary btn-sm"
+                  href={`mailto:${data[key].email}`}
+                >
+                  <FiMail />
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
     ))}
   </div>
 );

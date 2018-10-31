@@ -18,11 +18,14 @@ import {
 } from "reactstrap";
 
 const SignUpPage = ({ history }) => (
-  <div>
-    <h1>Sign Up</h1>
+  <Row>
+    <Col className="text-center" sm={{size: 6, offset:3}}>
+    <h1>Create your account</h1>
     <p className="lead">Join an exclusive community for Cal Poly students.</p>
     <SignUpForm history={history} />
-  </div>
+    <p>Already have an account? <Link to={routes.SIGN_IN}>Sign in</Link></p>
+    </Col>
+  </Row>
 );
 
 const updateByPropertyName = (propertyName, value) => () => ({
@@ -91,9 +94,9 @@ class SignUpForm extends Component {
       passwordOne === "" ||
       displayname === "" ||
       email.indexOf("@calpoly.edu") === -1;
-
+    
     return (
-      <Form onSubmit={this.onSubmit}>
+      <Form className="" onSubmit={this.onSubmit}>
         <FormGroup>
           <Input
             value={displayname}
@@ -146,13 +149,14 @@ class SignUpForm extends Component {
         <FormGroup>
           <Button
             block
-            outline
-            color="primary"
+            
+            color="success"
             disabled={isInvalid}
             type="submit"
           >
-            Sign Up
+            Create an account &rarr;
           </Button>
+          <FormText>By creating an account, you agree to our <a>terms & conditions.</a></FormText>
         </FormGroup>
         {error && <Alert color="danger">{error.message}</Alert>}
       </Form>
@@ -166,12 +170,6 @@ const SignUpLink = () => (
   </p>
 );
 
-function checkEmail(email) {
-  if (email.substring("@") !== "@calpoly.edu") {
-    return true;
-  }
-  return false;
-}
 export default withRouter(SignUpPage);
 
 export { SignUpForm, SignUpLink };

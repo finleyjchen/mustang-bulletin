@@ -12,7 +12,10 @@ import {
   InputGroupAddon,
   Alert,
   Card,
-  Modal, ModalHeader, ModalBody, ModalFooter
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
 
@@ -20,9 +23,8 @@ const NewJobPage = () => (
   <div>
     <Row>
       <h1 className="text-center w-100">New Job</h1>
-      <Col sm={{size: 6, offset:3}}>
-      <NewJobForm/>
-      
+      <Col sm={{ size: 6, offset: 3 }}>
+        <NewJobForm />
       </Col>
     </Row>
     {/*<Row>
@@ -66,7 +68,7 @@ const INITIAL_STATE = {
   type: 0,
   error: null,
   dateAdded: 0,
-  priceType: 0,
+  priceType: 0
 };
 class NewJobForm extends Component {
   constructor(props) {
@@ -161,7 +163,7 @@ class NewJobForm extends Component {
           <Button
             block
             outline
-            color="primary"
+            color="success"
             disabled={isInvalid}
             type="submit"
           >

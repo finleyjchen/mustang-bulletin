@@ -1,44 +1,38 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { compose } from "recompose";
 
-import withAuthorization from '../Session/withAuthorization';
-import { db } from '../../firebase';
+import withAuthorization from "../Session/withAuthorization";
+import { db } from "../../firebase";
+import "./index.css";
+import baffle from "baffle";
+import LandingPage from "../Landing";
+import { Helmet } from "react-helmet";
 
+const Home = ({ authUser }) => (
+  <div>
+    <Helmet>
+      <title>Mustang Bulletin - Home</title>
+    </Helmet>
+
+    {authUser ? <HomePage /> : <LandingPage />}
+  </div>
+);
 class HomePage extends Component {
-  componentDidMount() {
-    const { onSetUsers } = this.props;
-
-    db.onceGetUsers().then(snapshot =>
-      onSetUsers(snapshot.val())
-    );
-  }
+  componentDidMount() {}
 
   render() {
-    const { users } = this.props;
-
+    let b = baffle(".baffle");
     return (
       <div>
-        <h1>Home</h1>
-        <p>The Home Page is accessible by every signed in user.</p>
-
+        <h1>Home - Logged in</h1>
       </div>
     );
   }
 }
 
-
-const mapStateToProps = (state) => ({
-  users: state.userState.users,
+const mapStateToProps = state => ({
+  authUser: state.sessionState.authUser
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onSetUsers: (users) => dispatch({ type: 'USERS_SET', users }),
-});
-
-const authCondition = (authUser) => !!authUser;
-
-export default compose(
-  withAuthorization(authCondition),
-  connect(mapStateToProps, mapDispatchToProps)
-)(HomePage);
+export default connect(mapStateToProps)(Home);

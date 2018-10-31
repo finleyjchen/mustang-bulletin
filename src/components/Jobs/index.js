@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { db } from "../../firebase"; // <--- add this line
 import withAuthorization from "../Session/withAuthorization";
-import { Card, Badge, Input, Button, ButtonGroup } from "reactstrap";
+import { Card, Badge, Input, Button, ButtonGroup, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import "react-input-range/lib/css/index.css";
+import { compose } from "recompose";
+import { connect } from "react-redux";
 
 import "./index.css";
 import Moment from "react-moment";
@@ -16,8 +18,8 @@ class Jobs extends Component {
       jobs: {},
       searchString: "",
       searchType: "all",
-      priceRange: { min: 0, max: 200 },
-      sortBy: "price",
+      priceRange: { min: 0, max: 1000 },
+      sortBy: "price"
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchFilter = this.searchFilter.bind(this);
@@ -38,14 +40,14 @@ class Jobs extends Component {
     this.setState({ searchType: e.target.value });
   };
 
-  
-  
-
   render() {
     let { jobs, searchType, priceRange, sortBy } = this.state,
       searchString = this.state.searchString.trim().toLowerCase();
     let { min, max } = priceRange;
-    console.log(jobs);
+
+    if (!jobs) {
+      return <div>Loading</div>;
+    }
     if (searchString.length > 0) {
       console.log(Object.keys(jobs));
       jobs = Object.keys(jobs)
@@ -58,7 +60,9 @@ class Jobs extends Component {
           return obj;
         }, {});
     }
-  {/** search category listener */}
+    {
+      /** search category listener */
+    }
 
     if (searchType == "help") {
       console.log(Object.keys(jobs));
@@ -83,44 +87,51 @@ class Jobs extends Component {
           return obj;
         }, {});
     }
-  {/** priceRange listener */}
-      jobs = Object.keys(jobs)
-        .filter(function(key) {
-          if (jobs[key].price >= priceRange.min && jobs[key].price <= priceRange.max) return jobs[key];
+    {
+      /** priceRange listener */
+    }
+    jobs = Object.keys(jobs)
+      .filter(function(key) {
+        if (
+          jobs[key].price >= priceRange.min &&
+          jobs[key].price <= priceRange.max
+        )
+          return jobs[key];
+      })
+      .reduce((obj, key) => {
+        obj[key] = jobs[key];
+        return obj;
+      }, {});
 
-        })
+    if (sortBy == "price") {
+      jobs = Object.keys(jobs)
+        .sort((a, b) => (a.price > b.price ? 1 : b.price > a.price ? -1 : 0))
         .reduce((obj, key) => {
           obj[key] = jobs[key];
           return obj;
         }, {});
-    
-    if (sortBy == "price") {
-      jobs = Object.keys(jobs).sort((a,b) => (a.price > b.price) ? 1 : ((b.price > a.price) ? -1 : 0)).reduce((obj, key) => {
-        obj[key] = jobs[key];
-        return obj;
-      }, {});
     }
 
-
-    
-
-
     return (
-      <div>
-        <h1 className="text-center">Jobs</h1>
+      <Row>
+        <div className="bg-cp w-100 p-4 mb-4">
+          <h1>Jobs</h1>
+          <p className="lead">Jobs listed on the Bulletin</p>
+        </div>
         <Input
           type="text"
           value={this.state.searchString}
           onChange={this.handleChange}
           placeholder="Search"
         />
-        <div className="filters">
-  <InputRange
-        maxValue={200}
-        minValue={0}
-        value={this.state.priceRange}
-        onChange={priceRange => this.setState({ priceRange })} />
 
+        <div className="filters w-100-sm">
+          <InputRange
+            maxValue={200}
+            minValue={0}
+            value={this.state.priceRange}
+            onChange={priceRange => this.setState({ priceRange })}
+          />
           <button
             className={
               (this.state.searchType == "all" ? "active" : "") + " category"
@@ -151,13 +162,13 @@ class Jobs extends Component {
           </button>
         </div>
         {/*<JobList jobs={jobs} />*/}
-        <div className="py-4">
+        <div className="py-4 w-100">
           {Object.keys(jobs).map(key => (
             <Link className="job" key={key} to={`jobs/${jobs[key].url}`}>
               <div className="float-left clearfix w-75">
                 <h4>{key}</h4>
                 {/*jobs[key].description.substring(0, 50)*/}
-                <hr />
+                <br />
                 <p>
                   {" "}
                   <FiCalendar /> <Moment fromNow>
@@ -172,7 +183,7 @@ class Jobs extends Component {
             </Link>
           ))}
         </div>
-      </div>
+      </Row>
     );
   }
 }
@@ -208,7 +219,20 @@ const JobList = ({ jobs }) => (
     ))}
   </div>
 );
+const mapStateToProps = state => ({
+  users: state.userState.users
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSetUsers: users => dispatch({ type: "USERS_SET", users })
+});
 
 const authCondition = authUser => !!authUser;
 
-export default withAuthorization(authCondition)(Jobs);
+export default compose(
+  withAuthorization(authCondition),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(Jobs);

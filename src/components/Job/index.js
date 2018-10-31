@@ -27,20 +27,10 @@ class Job extends Component {
     const { data } = this.state;
     return (
       <Row className="">
-        <Col sm="8">
-          {Object.keys(data).map(key => (
-            <h1 key={key}>
-              {" "}
-              {data[key].title}
-              <strong className="float-right">
-              ${data[key].price}</strong>
-              
-            </h1>
-          ))}
+        <Col sm="12">
           <JobData data={data} />
         </Col>
-
-        <Col sm="4" className="mt-4">
+        <Col sm="12" className="mt-4">
           <UserData data={data} />
         </Col>
       </Row>
@@ -48,27 +38,19 @@ class Job extends Component {
   }
 }
 const UserData = ({ data }) => (
-  <div className="text-center">
+  <div className="">
     {Object.keys(data).map(key => (
-      <div key={key}>
-        <p>
-          {" "}
-          <Link className="profile-link" to={`/students/${data[key].user}`}>
-            <img className="profile-img" src={defaultuser} />
-            <FiUser /> {data[key].user}
-          </Link>
-        </p>
-        <p>
-          <FiCalendar />{" "}
-          <Moment format="MMM DD YYYY">{data[key].datePosted}</Moment>
-          <hr />
-          <a
-            className="btn btn-primary d-block"
-            href={`mailto:${data[key].user}@calpoly.edu`}
-          >
-            <FiMail /> Contact
-          </a>
-        </p>
+      <div className="post-meta">
+        <Link className="" to={`/students/${data[key].user}`}>
+          <img className="profile-img" src={defaultuser} />
+          <span className="pl-1"> {data[key].user}</span>{" "}
+        </Link>
+        <a
+          className="btn btn-primary btn-contact"
+          href={`mailto:${data[key].user}@calpoly.edu`}
+        >
+          <FiMail /> Contact
+        </a>
       </div>
     ))}
   </div>
@@ -78,8 +60,15 @@ const JobData = ({ data }) => (
   <div>
     {Object.keys(data).map(key => (
       <div key={key}>
-        <h1> </h1>
+        <h1 key={key}>
+          {data[key].title}
+          <span className="float-right green">${data[key].price}</span>
+        </h1>{" "}
+        <TypeBadge typeValue={data[key].type} />
+        {"  "} <FiCalendar />
+        <Moment format="MMM DD YYYY">{data[key].datePosted}</Moment>
         <hr />
+        <small class="text-muted">Job description</small>
         <p>{data[key].description}</p>
       </div>
     ))}

@@ -1,9 +1,9 @@
 .navbar {
-  background-color: #035642;
+  background-color: #fff;
 }
 
 .navbar a {
-  color: #fff;
+  color: #036542;
 }
 
 .dropdown-item a {
@@ -20,4 +20,10 @@
   background-color: #035642;
 }
 .nav-link:hover {
+  color:#035642;
+  background-color:#f9f9f9;
+}
+
+.navbar-brand {
+  font-size:1.5rem;
 }

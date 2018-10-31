@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import AuthUserContext from "../Session/AuthUserContext";
 import SignOutButton from "../SignOut";
 import { db, auth } from "../../firebase";
+import { connect } from "react-redux";
+
 import * as routes from "../../constants/routes";
 import "./index.css";
 import {
@@ -19,16 +20,17 @@ import {
   Dropdown,
   DropdownItem,
   DropdownToggle,
-  DropdownMenu
+  DropdownMenu,
+  UncontrolledDropdown,
+  Container
 } from "reactstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { IoIosClipboard, IoIosPerson } from "react-icons/io";
-import { userInfo } from "os";
+import { FiUsers, FiUser, FiBell } from "react-icons/fi";
 
-const Navigation = () => (
-  <AuthUserContext.Consumer>
-    {authUser => (authUser ? <NavigationAuth user={authUser}/> : <NavigationNonAuth />)}
-  </AuthUserContext.Consumer>
+const Navigation = ({ authUser, user }) => (
+  <div>
+    {authUser ? <NavigationAuth user={authUser} /> : <NavigationNonAuth />}
+  </div>
 );
 
 class NavigationAuth extends Component {
@@ -38,6 +40,7 @@ class NavigationAuth extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
+      activeTab: null,
       user: this.props.user
     };
   }
@@ -48,77 +51,86 @@ class NavigationAuth extends Component {
     });
   }
 
-  componentDidMount() {
-    db.getUserObject(this.state.user.uid).then(snapshot =>
-      this.setState(() => ({ user: snapshot.val() }))
-    );
-  }
+  componentDidMount() {}
 
   render() {
-    return(
+    const { user = [] } = this.props;
+    console.log(user);
+    return (
+      <Navbar className="mb-4 box-shadow border-bottom">
+        <Container>
+          <Link className="navbar-brand" to={routes.HOME}>
+            <b>MB</b>
+            alpha
+          </Link>
+          <Nav className="mr-auto">
+            <LinkContainer to={routes.JOBS}>
+              <NavLink>Jobs</NavLink>
+            </LinkContainer>
+            <LinkContainer to={routes.NEWJOB}>
+              <NavLink>New Job</NavLink>
+            </LinkContainer>
+          </Nav>
 
-  <Navbar className="mb-4 box-shadow border-bottom">
-    <Link className="navbar-brand" to={routes.HOME}>
-      <b>MustangBulletin</b>
-      <small>alpha</small>{" "}
-    </Link>
+          <Nav className="float-left">
+            <NavLink>
+              <FiBell size="1.5em" />
+            </NavLink>
+            <LinkContainer to={routes.STUDENTS}>
+              <NavLink>
+                <FiUsers size="1.5em" />
+              </NavLink>
+            </LinkContainer>
 
-    <Nav className="navbar-right">
-    <NavItem>
-        <LinkContainer to={routes.STUDENTS}>
-          <NavLink>Students</NavLink>
-        </LinkContainer>
-      </NavItem>
-      <LinkContainer to={routes.JOBS}>
-        <NavLink>Jobs</NavLink>
-      </LinkContainer>
-      <LinkContainer to={routes.NEWJOB}>
-        <Button outline color="success">
-          New Job +
-        </Button>
-      </LinkContainer>
-        <Dropdown  isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle  color="white" caret>
-          <IoIosPerson size="1.5em" />
-          {this.state.user.username}
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem header>Signed in as: {this.state.user.username}</DropdownItem>
-          <DropdownItem>
-            My Bulletin
-          </DropdownItem>
-          <DropdownItem>          <Link to={routes.ACCOUNT}>
-            Account Settings
-          </Link></DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem onClick={auth.doSignOut}
-> Sign Out</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-        
-    </Nav>
-  </Navbar>
-);}
-    }
+            <UncontrolledDropdown
+              nav
+              isOpen={this.state.dropdownOpen}
+              toggle={this.toggle}
+            >
+              <DropdownToggle nav>
+                <FiUser size="1.5em" />
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem header>Signed in as:</DropdownItem>
+                <Link className="dropdown-item" to={routes.ACCOUNT}>
+                  Account Settings
+                </Link>
+                <DropdownItem divider />
+                <DropdownItem onClick={auth.doSignOut}> Sign Out</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+        </Container>
+      </Navbar>
+    );
+  }
+}
 const NavigationNonAuth = () => (
-  <Navbar className="mb-4">
-    <Link className="navbar-brand" to={routes.LANDING}>
-      {" "}
-      <b>MustangBulletin</b>
-      <small>alpha</small>{" "}
-    </Link>
-    <Nav>
-      <LinkContainer to={routes.ABOUT}>
-        <NavLink>About</NavLink>
-      </LinkContainer>
+  <Navbar className="mb-4 border-bottom">
+    <Container>
+      <Link className="navbar-brand" to={routes.HOME}>
+        <b>MB</b>
+        alpha
+      </Link>
+      <Nav>
+        <LinkContainer to={routes.ABOUT}>
+          <NavLink>About</NavLink>
+        </LinkContainer>
 
-      <LinkContainer to={routes.SIGN_IN}>
-        <Button outline color="white">
-          Sign In
-        </Button>
-      </LinkContainer>
-    </Nav>
+        <LinkContainer to={routes.SIGN_IN}>
+          <NavLink>Sign In</NavLink>
+        </LinkContainer>
+        <LinkContainer to={routes.SIGN_UP}>
+          <NavLink active>Create Account</NavLink>
+        </LinkContainer>
+      </Nav>
+    </Container>
   </Navbar>
 );
 
-export default Navigation;
+const mapStateToProps = state => ({
+  authUser: state.sessionState.authUser,
+  user: state.sessionState.user
+});
+
+export default connect(mapStateToProps)(Navigation);

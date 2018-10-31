@@ -23,8 +23,7 @@ const App = () => (
   <Router>
     <div className="app">
       <Navigation />
-      <Container>
-        <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+      <Container className="border">
         <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
         <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
         <Route

@@ -1,16 +1,25 @@
 .profile-img {
-    width: 50%;
-    border-radius: 200px;
-    text-align: center;
-    display: block;
-    margin: auto;
-  }
+  width: 50px;
+  border-radius: 200px;
+}
 
 .profile-link {
-    color:#444;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.post-meta > * {
+  margin: 0 0.5em;
 }
 
 .profile-link:hover {
-    color:#444;
-    text-decoration: none;
+  color: #444;
+  text-decoration: none;
+}
+
+.btn-contact {
+  margin-top: 5px;
+
+  float: right;
 }

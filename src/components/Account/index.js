@@ -1,14 +1,14 @@
 import React from "react";
 
-import AuthUserContext from "../Session/AuthUserContext";
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { PasswordForgetForm } from "../PasswordForget";
 import PasswordChangeForm from "../PasswordChange";
 import withAuthorization from "../Session/withAuthorization";
 import { Table,Row, Col } from "reactstrap";
 import Jobs from "../Jobs";
-const AccountPage = () => (
-  <AuthUserContext.Consumer>
-    {authUser => (
+const AccountPage = ( {authUser}) => (
+
       <Row>
         <Col sm="8">
 
@@ -35,10 +35,17 @@ const AccountPage = () => (
         </Table>
         </Col>
       </Row>
-    )}
-  </AuthUserContext.Consumer>
-);
+    );
 
-const authCondition = authUser => !!authUser;
 
-export default withAuthorization(authCondition)(AccountPage);
+
+    const mapStateToProps = (state) => ({
+      authUser: state.sessionState.authUser,
+    });
+    
+    const authCondition = (authUser) => !!authUser;
+    
+    export default compose(
+      withAuthorization(authCondition),
+      connect(mapStateToProps)
+    )(AccountPage);
