@@ -23,7 +23,7 @@ const App = () => (
   <Router>
     <div className="app">
       <Navigation />
-      <Container className="border">
+      <Container>
         <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
         <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
         <Route

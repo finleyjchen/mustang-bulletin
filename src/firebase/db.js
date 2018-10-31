@@ -19,7 +19,8 @@ export const doCreateUser = (id, displayname, email) =>
   db.ref(`users/${id}`).set({
     displayname,
     username: email.substring(0, email.lastIndexOf("@")),
-    email
+    email,
+    
   });
 
 export const onceGetUsers = () => db.ref("users").once("value");

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { db } from "../../firebase"; // <--- add this line
 import withAuthorization from "../Session/withAuthorization";
-import { Card, Badge, Input, Button, ButtonGroup, Row } from "reactstrap";
+import { Card, Badge, Input, Button, ButtonGroup, Row,Tab, Content, TabPane, Nav, NavItem, NavLink, CardTitle, CardText } from "reactstrap";
 import { Link } from "react-router-dom";
 import "react-input-range/lib/css/index.css";
 import { compose } from "recompose";
 import { connect } from "react-redux";
-
+import classnames from "classnames";
 import "./index.css";
 import Moment from "react-moment";
 import { FiCalendar } from "react-icons/fi";
@@ -16,6 +16,7 @@ class Jobs extends Component {
     super(props);
     this.state = {
       jobs: {},
+      activeTab: '1',
       searchString: "",
       searchType: "all",
       priceRange: { min: 0, max: 1000 },
@@ -23,6 +24,7 @@ class Jobs extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchFilter = this.searchFilter.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +37,14 @@ class Jobs extends Component {
     this.setState({ searchString: e.target.value });
     console.log({ searchString: e.target.value });
   };
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  }
 
   searchFilter = e => {
     this.setState({ searchType: e.target.value });
@@ -113,54 +123,57 @@ class Jobs extends Component {
     }
 
     return (
-      <Row>
-        <div className="bg-cp w-100 p-4 mb-4">
-          <h1>Jobs</h1>
-          <p className="lead">Jobs listed on the Bulletin</p>
-        </div>
-        <Input
+      <div>
+        <input
+          className="search-bar"
           type="text"
           value={this.state.searchString}
           onChange={this.handleChange}
           placeholder="Search"
         />
+        <Nav tabs>
+          <NavItem>
+            <button
+            className={
+              (this.state.searchType == "all" ? "active" : "") + " category"
+            }
+            value="all"
+            onClick={this.searchFilter}
+            >
+              All
+            </button>
+          </NavItem>
+          <NavItem>
+            <button
+            className={
+              (this.state.searchType == "help" ? "active" : "") + " category"
+            }
+            value="help"
+            onClick={this.searchFilter}
+            >
+              Help Wanted
+            </button>
+            </NavItem>
 
-        <div className="filters w-100-sm">
+          <NavItem>
+            <button
+            className={
+              (this.state.searchType == "service" ? "active" : "") + " category"
+            }
+            value="service"
+            onClick={this.searchFilter}
+            >
+              Service
+            </button>
+          </NavItem>
+        </Nav>
+
           <InputRange
             maxValue={200}
             minValue={0}
             value={this.state.priceRange}
             onChange={priceRange => this.setState({ priceRange })}
           />
-          <button
-            className={
-              (this.state.searchType == "all" ? "active" : "") + " category"
-            }
-            value="all"
-            onClick={this.searchFilter}
-          >
-            All
-          </button>
-
-          <button
-            className={
-              (this.state.searchType == "help" ? "active" : "") + " category"
-            }
-            value="help"
-            onClick={this.searchFilter}
-          >
-            Help Wanted
-          </button>
-          <button
-            className={
-              (this.state.searchType == "service" ? "active" : "") + " category"
-            }
-            value="service"
-            onClick={this.searchFilter}
-          >
-            Student Services
-          </button>
-        </div>
         {/*<JobList jobs={jobs} />*/}
         <div className="py-4 w-100">
           {Object.keys(jobs).map(key => (
@@ -183,7 +196,7 @@ class Jobs extends Component {
             </Link>
           ))}
         </div>
-      </Row>
+      </div>
     );
   }
 }

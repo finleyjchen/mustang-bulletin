@@ -4,7 +4,7 @@
   transition: 0.1s all ease-in;
   cursor: pointer;
   display: block;
-  height: 100px;
+  height: 110px;
   border: 1px solid #dee2e6;
   line-height: 1;
   color: #444;
@@ -27,7 +27,6 @@
 .category {
   color: #444;
   background-color: white;
-  border: 1.5px solid #03564230;
 
   border-radius: 3px;
   padding: 0.5em 1em;
@@ -36,6 +35,7 @@
 }
 .category {
   margin-right: 0.5em;
+  border:none;
 }
 .category:focus {
   outline: none;
@@ -48,7 +48,7 @@
 }
 
 .active {
-  border: 1px solid #03564240;
+  border-bottom: 2px solid #03564280;
   background-color: #03564220;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .input-range {
-  margin: 0.5em 0;
+  margin:auto;
   width: 50% !important;
   float: right;
 }
@@ -78,4 +78,11 @@
 
 .input-range__track--active {
   background: #035642;
+}
+
+.search-bar {
+  width:100%;
+  margin:0.5em auto;
+  padding:0.5em;
+  border: 1px solid rgba(0,0,0,.125);
 }

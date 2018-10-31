@@ -38,17 +38,25 @@ class NavigationAuth extends Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.toggleNotif = this.toggleNotif.bind(this);
     this.state = {
       dropdownOpen: false,
+      dropdownOpen2: false,
       activeTab: null,
       user: this.props.user
     };
   }
 
   toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
+
+      this.setState({
+        dropdownOpen: !this.state.dropdownOpen
+      });
+    
+  }
+
+  toggleNotif() {
+    this.setState({ dropdownOpen2: !this.state.dropdownOpen2});
   }
 
   componentDidMount() {}
@@ -73,9 +81,21 @@ class NavigationAuth extends Component {
           </Nav>
 
           <Nav className="float-left">
-            <NavLink>
-              <FiBell size="1.5em" />
-            </NavLink>
+          <UncontrolledDropdown
+              nav
+              isOpen={this.state.dropdownOpen2}
+              toggle={this.toggleNotif}
+            >
+              <DropdownToggle nav>
+                <FiBell size="1.5em" />
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem header>Notifications</DropdownItem>
+
+                <DropdownItem divider />
+              </DropdownMenu>
+            </UncontrolledDropdown>
+
             <LinkContainer to={routes.STUDENTS}>
               <NavLink>
                 <FiUsers size="1.5em" />
