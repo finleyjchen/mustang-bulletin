@@ -15,12 +15,15 @@ function slugify(text) {
     .replace(/-+$/, ""); // Trim - from end of text
 }
 
-export const doCreateUser = (id, displayname, email) =>
+export const doCreateUser = (id, displayname, email, dateJoined) =>
   db.ref(`users/${id}`).set({
     displayname,
     username: email.substring(0, email.lastIndexOf("@")),
     email,
-    
+    bio: null,
+    major: null,
+    gradyear: null,
+    dateJoined,
   });
 
 export const onceGetUsers = () => db.ref("users").once("value");
@@ -29,6 +32,8 @@ export const setUserDB = (id, value) =>
   db.ref(`users/${id}`).set({
     value
   });
+
+export const updateUser = (uid, name, value) => db.ref("users/" + uid).update({[name]: value })
 export const getUser = username =>
   db
     .ref("users")

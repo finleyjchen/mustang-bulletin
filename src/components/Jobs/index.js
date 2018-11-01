@@ -135,7 +135,7 @@ class Jobs extends Component {
           <NavItem>
             <button
             className={
-              (this.state.searchType == "all" ? "active" : "") + " category"
+              (this.state.searchType == "all" ? "active-tab" : "") + " category"
             }
             value="all"
             onClick={this.searchFilter}
@@ -146,7 +146,7 @@ class Jobs extends Component {
           <NavItem>
             <button
             className={
-              (this.state.searchType == "help" ? "active" : "") + " category"
+              (this.state.searchType == "help" ? "active-tab" : "") + " category"
             }
             value="help"
             onClick={this.searchFilter}
@@ -158,7 +158,7 @@ class Jobs extends Component {
           <NavItem>
             <button
             className={
-              (this.state.searchType == "service" ? "active" : "") + " category"
+              (this.state.searchType == "service" ? "active-tab" : "") + " category"
             }
             value="service"
             onClick={this.searchFilter}
@@ -166,14 +166,14 @@ class Jobs extends Component {
               Service
             </button>
           </NavItem>
-        </Nav>
-
           <InputRange
             maxValue={200}
             minValue={0}
             value={this.state.priceRange}
             onChange={priceRange => this.setState({ priceRange })}
           />
+        </Nav>
+
         {/*<JobList jobs={jobs} />*/}
         <div className="py-4 w-100">
           {Object.keys(jobs).map(key => (

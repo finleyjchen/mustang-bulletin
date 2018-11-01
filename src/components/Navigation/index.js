@@ -29,7 +29,7 @@ import { FiUsers, FiUser, FiBell } from "react-icons/fi";
 
 const Navigation = ({ authUser, user }) => (
   <div>
-    {authUser ? <NavigationAuth user={authUser} /> : <NavigationNonAuth />}
+    {authUser ? <NavigationAuth user={user} /> : <NavigationNonAuth />}
   </div>
 );
 
@@ -43,7 +43,6 @@ class NavigationAuth extends Component {
       dropdownOpen: false,
       dropdownOpen2: false,
       activeTab: null,
-      user: this.props.user
     };
   }
 
@@ -62,8 +61,10 @@ class NavigationAuth extends Component {
   componentDidMount() {}
 
   render() {
-    const { user = [] } = this.props;
-    console.log(user);
+    var user = "";
+    if (this.props.user) {
+      var user = this.props.user;
+    }
     return (
       <Navbar className="mb-4 box-shadow border-bottom">
         <Container>
@@ -109,9 +110,10 @@ class NavigationAuth extends Component {
             >
               <DropdownToggle nav>
                 <FiUser size="1.5em" />
+                {user.displayname}
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem header>Signed in as:</DropdownItem>
+                <DropdownItem header>Signed in as: {user.displayname}</DropdownItem>
                 <Link className="dropdown-item" to={routes.ACCOUNT}>
                   Account Settings
                 </Link>

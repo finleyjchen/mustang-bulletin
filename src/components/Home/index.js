@@ -11,7 +11,9 @@ import { Row, Col, Alert } from "reactstrap";
 import Jobs from "../Jobs";
 import { Helmet } from "react-helmet";
 import ProfileData from "../Session/profileData";
-import { FiAlertCircle } from "react-icons/fi";
+import { FiAlertCircle, FiEye, FiBriefcase } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import * as routes from "../../constants/routes";
 
 const Home = ({ authUser, user }) => (
   <div>
@@ -34,24 +36,34 @@ class HomePage extends Component {
       <div>
         <Row>
           <Col sm="12">
-          <Alert color="warning  "><FiAlertCircle size="1.2em" /> Mustang Bulletin is in early stages of development. Use at your own risk.</Alert>
+            <Alert color="warning  ">
+              <FiAlertCircle size="1.2em" />{" "}
+              <Link to={routes.ACCOUNT}>
+                Click here to update your profile &rarr;
+              </Link>
+            </Alert>
           </Col>
         </Row>
         <Row>
           <Col sm="3" className="">
-
-          <ProfileData data={this.props.user} />
+            <ProfileData data={this.props.user} />
+            <ul className="list-group mt-5">
+              <a href="#" className="list-group-item">
+                <FiBriefcase size="1.2em" /> Your Jobs
+              </a>
+              <a href="#" className="list-group-item">
+                <FiEye size="1.2em" /> WatchList
+              </a>
+            </ul>
           </Col>
           <Col sm="9" className="">
-          <Jobs />
+            <Jobs />
           </Col>
         </Row>
       </div>
     );
   }
 }
-
-
 
 const mapStateToProps = state => ({
   authUser: state.sessionState.authUser,

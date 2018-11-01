@@ -44,23 +44,23 @@
   background-color: white;
   cursor: pointer;
   color: #444;
-  background-color: #03564220;
+  background-color: #03564210;
 }
 
-.active {
+.active-tab {
   border-bottom: 2px solid #03564280;
-  background-color: #03564220;
+  background-color: #03564210;
 }
 
 .filters {
   margin: 0.5em auto;
   width: 80%;
 }
-
 .input-range {
+  max-width:50%;
   margin:auto;
-  width: 50% !important;
-  float: right;
+  display:none;
+  
 }
 
 .input-range__label {

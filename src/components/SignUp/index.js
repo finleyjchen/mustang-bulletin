@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-
+import moment from "moment";
 import { auth, db } from "../../firebase";
 import * as routes from "../../constants/routes";
 import {
@@ -60,8 +60,8 @@ class SignUpForm extends Component {
         authUser.user.updateProfile({
           displayName: displayname
         });
-
-        db.doCreateUser(authUser.user.uid, displayname, email)
+    
+        db.doCreateUser(authUser.user.uid, displayname, email, moment())
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
             history.push(routes.HOME);
