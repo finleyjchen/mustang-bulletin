@@ -28,9 +28,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { FiUsers, FiUser, FiBell } from "react-icons/fi";
 
 const Navigation = ({ authUser, user }) => (
-  <div>
-    {authUser ? <NavigationAuth user={user} /> : <NavigationNonAuth />}
-  </div>
+  <div>{authUser ? <NavigationAuth user={user} /> : <NavigationNonAuth />}</div>
 );
 
 class NavigationAuth extends Component {
@@ -42,20 +40,18 @@ class NavigationAuth extends Component {
     this.state = {
       dropdownOpen: false,
       dropdownOpen2: false,
-      activeTab: null,
+      activeTab: null
     };
   }
 
   toggle() {
-
-      this.setState({
-        dropdownOpen: !this.state.dropdownOpen
-      });
-    
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
   }
 
   toggleNotif() {
-    this.setState({ dropdownOpen2: !this.state.dropdownOpen2});
+    this.setState({ dropdownOpen2: !this.state.dropdownOpen2 });
   }
 
   componentDidMount() {}
@@ -76,13 +72,10 @@ class NavigationAuth extends Component {
             <LinkContainer to={routes.JOBS}>
               <NavLink>Jobs</NavLink>
             </LinkContainer>
-            <LinkContainer to={routes.NEWJOB}>
-              <NavLink>New Job</NavLink>
-            </LinkContainer>
           </Nav>
 
           <Nav className="float-left">
-          <UncontrolledDropdown
+            <UncontrolledDropdown
               nav
               isOpen={this.state.dropdownOpen2}
               toggle={this.toggleNotif}
@@ -110,10 +103,11 @@ class NavigationAuth extends Component {
             >
               <DropdownToggle nav>
                 <FiUser size="1.5em" />
-                {user.displayname}
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem header>Signed in as: {user.displayname}</DropdownItem>
+                <DropdownItem header>
+                  Signed in as: {user.displayname}
+                </DropdownItem>
                 <Link className="dropdown-item" to={routes.ACCOUNT}>
                   Account Settings
                 </Link>

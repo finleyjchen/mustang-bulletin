@@ -29,4 +29,5 @@ function sessionReducer(state = INITIAL_STATE, action) {
   }
 }
 
+
 export default sessionReducer;

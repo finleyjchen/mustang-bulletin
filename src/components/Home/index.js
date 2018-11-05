@@ -14,6 +14,7 @@ import ProfileData from "../Session/profileData";
 import { FiAlertCircle, FiEye, FiBriefcase } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import * as routes from "../../constants/routes";
+import NewJobModal from "../NewJob/";
 
 const Home = ({ authUser, user }) => (
   <div>
@@ -46,8 +47,10 @@ class HomePage extends Component {
         </Row>
         <Row>
           <Col sm="3" className="">
+            <NewJobModal />
+
             <ProfileData data={this.props.user} />
-            <ul className="list-group mt-5">
+            <ul className="list-group mt-1">
               <a href="#" className="list-group-item">
                 <FiBriefcase size="1.2em" /> Your Jobs
               </a>

@@ -99,84 +99,128 @@ class NewJobForm extends Component {
 
     return (
       <Form onSubmit={this.onSubmit}>
-        <FormGroup>
-          <Label>Title*</Label>
-          <Input
-            value={title}
-            onChange={event =>
-              this.setState(updateByPropertyName("title", event.target.value))
-            }
-            type="text"
-            placeholder="Don't use all uppercase titles"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Description*</Label>
-          <Input
-            value={description}
-            onChange={event =>
-              this.setState(
-                updateByPropertyName("description", event.target.value)
-              )
-            }
-            type="textarea"
-            placeholder="Describe what you need done here."
-          />
-        </FormGroup>
-        <FormGroup>
-          <InputGroup size="lg" className="w-50">
-            <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+        <ModalBody>
+          <FormGroup>
+            <Label>Title*</Label>
             <Input
-              value={price}
+              value={title}
               onChange={event =>
-                this.setState(updateByPropertyName("price", event.target.value))
+                this.setState(updateByPropertyName("title", event.target.value))
               }
-              placeholder="Amount"
-              type="number"
-              step="1"
+              type="text"
+              placeholder="Don't use all uppercase titles"
             />
-            <InputGroupAddon addonType="append">.00</InputGroupAddon>
-          </InputGroup>
-        </FormGroup>
-        <FormGroup check>
-          <Label check>
+          </FormGroup>
+          <FormGroup>
+            <Label>Description*</Label>
             <Input
-              type="radio"
-              name="type"
-              value={type}
-              onChange={event => this.setState(updateByPropertyName("type", 0))}
+              value={description}
+              onChange={event =>
+                this.setState(
+                  updateByPropertyName("description", event.target.value)
+                )
+              }
+              type="textarea"
+              placeholder="Describe what you need done here."
             />
-            Help Wanted
-          </Label>
-        </FormGroup>
-        <FormGroup check>
-          <Label check>
-            <Input
-              type="radio"
-              name="type"
-              onChange={event => this.setState(updateByPropertyName("type", 1))}
-            />{" "}
-            Providing a service
-          </Label>
-        </FormGroup>
-        <FormGroup>
-          <Button
-            block
-            outline
-            color="success"
-            disabled={isInvalid}
-            type="submit"
-          >
-            Add Job
-          </Button>
-        </FormGroup>
-
+          </FormGroup>
+          <FormGroup>
+            <InputGroup size="lg" className="w-50">
+              <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+              <Input
+                value={price}
+                onChange={event =>
+                  this.setState(
+                    updateByPropertyName("price", event.target.value)
+                  )
+                }
+                placeholder="Amount"
+                type="number"
+                step="1"
+              />
+              <InputGroupAddon addonType="append">.00</InputGroupAddon>
+            </InputGroup>
+          </FormGroup>
+          <FormGroup check>
+            <Label check>
+              <Input
+                type="radio"
+                name="type"
+                value={type}
+                onChange={event =>
+                  this.setState(updateByPropertyName("type", 0))
+                }
+              />
+              Help Wanted
+            </Label>
+          </FormGroup>
+          <FormGroup check>
+            <Label check>
+              <Input
+                type="radio"
+                name="type"
+                onChange={event =>
+                  this.setState(updateByPropertyName("type", 1))
+                }
+              />{" "}
+              Providing a service
+            </Label>
+          </FormGroup>
+        </ModalBody>
+        <ModalFooter>
+          <FormGroup>
+            <Button
+              block
+              outline
+              color="success"
+              disabled={isInvalid}
+              type="submit"
+            >
+              Add Job
+            </Button>
+          </FormGroup>
+        </ModalFooter>
         {error && <p>{error.message}</p>}
       </Form>
     );
   }
 }
 
-export default withRouter(NewJobPage);
+class NewJobModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false
+    };
 
-export { NewJobForm };
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <button class="btn border btn-new-job w-100" onClick={this.toggle}>
+          Post a Job &rarr;
+        </button>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          className={this.props.className}
+        >
+          <ModalHeader toggle={this.toggle}>Post a job</ModalHeader>
+          <NewJobForm />
+        </Modal>
+      </div>
+    );
+  }
+}
+
+export default withRouter(NewJobModal);
+
+export { NewJobForm, NewJobPage };

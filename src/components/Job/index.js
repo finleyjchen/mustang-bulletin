@@ -26,11 +26,11 @@ class Job extends Component {
   render() {
     const { data } = this.state;
     return (
-      <Row className="">
+      <Row className="bg-white border">
         <Col sm="12">
           <JobData data={data} />
         </Col>
-        <Col sm="12" className="mt-4">
+        <Col sm="12" className="my-4">
           <UserData data={data} />
         </Col>
       </Row>
@@ -41,7 +41,7 @@ const UserData = ({ data }) => (
   <div className="">
     {Object.keys(data).map(key => (
       <div className="post-meta">
-        <Link className="" to={`/students/${data[key].user}`}>
+        <Link className="p-1" to={`/students/${data[key].user}`}>
           <img className="profile-img" src={defaultuser} />
           <span className="pl-1"> {data[key].user}</span>{" "}
         </Link>

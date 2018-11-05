@@ -5,10 +5,11 @@
   cursor: pointer;
   display: block;
   height: 110px;
-  border: 1px solid #dee2e6;
+  border: 1px solid rgba(0, 0, 0, 0.125);
   line-height: 1;
   color: #444;
   background: #fff;
+  border-radius: 0.25rem;
 }
 
 .green {
@@ -35,7 +36,7 @@
 }
 .category {
   margin-right: 0.5em;
-  border:none;
+  border: none;
 }
 .category:focus {
   outline: none;
@@ -57,10 +58,9 @@
   width: 80%;
 }
 .input-range {
-  max-width:50%;
-  margin:auto;
-  display:none;
-  
+  max-width: 50%;
+  margin: auto;
+  display: none;
 }
 
 .input-range__label {
@@ -81,8 +81,9 @@
 }
 
 .search-bar {
-  width:100%;
-  margin:0.5em auto;
-  padding:0.5em;
-  border: 1px solid rgba(0,0,0,.125);
+  width: 100%;
+  margin: 0.5em auto;
+  padding: 0.5em;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }

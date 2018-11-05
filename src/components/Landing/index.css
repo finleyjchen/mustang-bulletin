@@ -1,46 +1,33 @@
-
 .testings {
-    text-align: center;
+  text-align: center;
 }
 .testings .cloud {
-    display: inline;
-    list-style-type: none;
-    margin:auto;
+  display: inline;
+  list-style-type: none;
+  margin: auto;
 }
 .testings .cloud li {
-    list-style: none;
-    display: inline;
-    margin:0.1em;
+  list-style: none;
+  display: inline;
+  margin: 0.1em;
 }
 
 /* Random sizes */
 
 .testings .cloud li:nth-of-type(2n + 1) {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }
-.testings .cloud li:nth-of-type(3n+2) {
-    font-size: 1.5rem;
+.testings .cloud li:nth-of-type(3n + 2) {
+  font-size: 1.5rem;
 }
 
 .testings .cloud li:nth-of-type(5n + 3) {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 .testings .cloud li:nth-of-type(7n + 5) {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .rounded {
-    border-radius:100px!important;
-}
-
-.btn-cp {
-    border:2px solid #036542;
-    color:#036542;
-    padding:0.5em 2em;
-
-}
-
-.btn-cp:hover {
-    color:#fff;
-    background-color:#036542;
+  border-radius: 100px !important;
 }

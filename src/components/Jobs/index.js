@@ -1,7 +1,22 @@
 import React, { Component } from "react";
 import { db } from "../../firebase"; // <--- add this line
 import withAuthorization from "../Session/withAuthorization";
-import { Card, Badge, Input, Button, ButtonGroup, Row,Tab, Content, TabPane, Nav, NavItem, NavLink, CardTitle, CardText } from "reactstrap";
+import {
+  Card,
+  Badge,
+  Input,
+  Button,
+  ButtonGroup,
+  Row,
+  Tab,
+  Content,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  CardTitle,
+  CardText
+} from "reactstrap";
 import { Link } from "react-router-dom";
 import "react-input-range/lib/css/index.css";
 import { compose } from "recompose";
@@ -16,7 +31,7 @@ class Jobs extends Component {
     super(props);
     this.state = {
       jobs: {},
-      activeTab: '1',
+      activeTab: "1",
       searchString: "",
       searchType: "all",
       priceRange: { min: 0, max: 1000 },
@@ -134,34 +149,37 @@ class Jobs extends Component {
         <Nav tabs>
           <NavItem>
             <button
-            className={
-              (this.state.searchType == "all" ? "active-tab" : "") + " category"
-            }
-            value="all"
-            onClick={this.searchFilter}
+              className={
+                (this.state.searchType == "all" ? "active-tab" : "") +
+                " category"
+              }
+              value="all"
+              onClick={this.searchFilter}
             >
               All
             </button>
           </NavItem>
           <NavItem>
             <button
-            className={
-              (this.state.searchType == "help" ? "active-tab" : "") + " category"
-            }
-            value="help"
-            onClick={this.searchFilter}
+              className={
+                (this.state.searchType == "help" ? "active-tab" : "") +
+                " category"
+              }
+              value="help"
+              onClick={this.searchFilter}
             >
               Help Wanted
             </button>
-            </NavItem>
+          </NavItem>
 
           <NavItem>
             <button
-            className={
-              (this.state.searchType == "service" ? "active-tab" : "") + " category"
-            }
-            value="service"
-            onClick={this.searchFilter}
+              className={
+                (this.state.searchType == "service" ? "active-tab" : "") +
+                " category"
+              }
+              value="service"
+              onClick={this.searchFilter}
             >
               Service
             </button>
@@ -191,7 +209,7 @@ class Jobs extends Component {
                 </p>
               </div>
               <div className="float-right clearfix w-25">
-                <p className="text-right display-4 green">${jobs[key].price}</p>
+                <p className="text-right h1 green">${jobs[key].price}</p>
               </div>
             </Link>
           ))}
