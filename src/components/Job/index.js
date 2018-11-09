@@ -64,7 +64,7 @@ const JobData = ({ data }) => (
           {data[key].title}
           <span className="float-right green">${data[key].price}</span>
         </h1>{" "}
-        <TypeBadge typeValue={data[key].type} />
+        <TypeBadge typeValue={data[key].type} page="job"/>
         {"  "} <FiCalendar />
         <Moment format="MMM DD YYYY">{data[key].datePosted}</Moment>
         <hr />

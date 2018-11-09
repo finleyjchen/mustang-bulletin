@@ -6,6 +6,7 @@ import { compose } from "recompose";
 import { db } from "../../firebase";
 import { ListGroup, ListGroupItem, Row } from "reactstrap";
 import { Link } from "react-router-dom";
+import { selectUser } from "../../store/actions";
 
 class StudentsPage extends Component {
   constructor(props) {

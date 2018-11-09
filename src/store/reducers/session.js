@@ -1,4 +1,5 @@
 import { db } from "../../firebase";
+import { UPDATE_USER } from "../actions";
 
 const INITIAL_STATE = {
   authUser: null,
@@ -16,6 +17,7 @@ const userConnect = (state, action) => ({
 });
 
 
+
 function sessionReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case "AUTH_USER_SET": {
@@ -24,6 +26,9 @@ function sessionReducer(state = INITIAL_STATE, action) {
     case "USER_CONNECT": {
       return userConnect(state, action);
     }
+    case UPDATE_USER: {
+      return {...state, user: action.data};
+    } 
     default:
       return state;
   }

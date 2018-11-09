@@ -66,7 +66,7 @@ class NavigationAuth extends Component {
         <Container>
           <Link className="navbar-brand" to={routes.HOME}>
             <b>MB</b>
-            alpha
+            
           </Link>
           <Nav className="mr-auto">
             <LinkContainer to={routes.JOBS}>
@@ -122,11 +122,11 @@ class NavigationAuth extends Component {
   }
 }
 const NavigationNonAuth = () => (
-  <Navbar className="mb-4 border-bottom">
+  <Navbar className=" border-bottom">
     <Container>
       <Link className="navbar-brand" to={routes.HOME}>
         <b>MB</b>
-        alpha
+        
       </Link>
       <Nav>
         <LinkContainer to={routes.ABOUT}>

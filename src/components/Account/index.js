@@ -9,7 +9,8 @@ import { db } from "../../firebase";
 import { Table, Row, Col, Form, Input, Button, Alert } from "reactstrap";
 import ProfileData from "../Session/profileData";
 import Jobs from "../Jobs";
-import * as actions from '../../store/actions';
+import * as actions from "../../store/actions";
+import { watchUserData } from "../../store/listeners"
 
 const updateByPropertyName = (propertyName, value) => () => ({
   [propertyName]: value
@@ -24,7 +25,7 @@ class AccountPage extends Component {
       newBio: "",
       major: "",
       gradyear: "",
-      saved:false
+      saved: false
     };
   }
   componentWillMount() {
@@ -71,10 +72,10 @@ class AccountPage extends Component {
     }
     const { error, newBio, major, gradyear, saved } = this.state;
     return (
-      <Row>
+      <Row className="bg-white border">
         <Col sm="8">
           <h2>Account Details</h2>
-          {saved && <Alert color='success'>Successfully saved</Alert>}
+          {saved && <Alert color="success">Successfully saved</Alert>}
           <Table>
             <tbody>
               <tr>
@@ -99,7 +100,7 @@ class AccountPage extends Component {
                       }
                       type="textarea"
                       placeholder={user.bio}
-                      className="mb-2"
+                      className="mb-2 w-50 d-inline"
                     />
                     <Button type="submit">Save</Button>
                     {error && <p>{error.message}</p>}
@@ -119,10 +120,12 @@ class AccountPage extends Component {
                       }
                       type="text"
                       placeholder={user.major}
-                      className="mb-2"
+                      className="mb-2 w-50 d-inline"
                     />
 
-                    <Button type="submit">Save</Button>
+                    <Button className="ml-1" type="submit">
+                      Save
+                    </Button>
                   </Form>
                 </td>
               </tr>
@@ -139,7 +142,7 @@ class AccountPage extends Component {
                       }
                       type="select"
                       placeholder={user.gradyear}
-                      className="mb-2"
+                      className="mb-2 w-50 d-inline"
                     >
                       <option>2018</option>
                       <option>2019</option>
@@ -147,7 +150,9 @@ class AccountPage extends Component {
                       <option>2021</option>
                       <option>2022</option>
                     </Input>
-                    <Button type="submit">Save</Button>
+                    <Button className="ml-1" type="submit">
+                      Save
+                    </Button>
                   </Form>
                 </td>
               </tr>

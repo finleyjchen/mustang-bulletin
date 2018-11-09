@@ -10,6 +10,8 @@
   color: #444;
   background: #fff;
   border-radius: 0.25rem;
+  position:relative;
+  padding-left:2rem;
 }
 
 .green {
@@ -86,4 +88,25 @@
   padding: 0.5em;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
+}
+
+.help-wanted-flair {
+  border-left: 1px solid #ffc107;
+}
+
+.service-flair {
+  border-left: 1px solid #ffc107;
+}
+
+.type-badge {
+  transform:rotate(-90deg);
+  bottom:45px;
+  left:-46px;
+  position:absolute;
+  width:110px;
+}
+
+.job-meta {
+  position:absolute;
+  bottom:0.1rem;
 }

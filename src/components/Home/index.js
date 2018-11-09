@@ -28,6 +28,12 @@ const Home = ({ authUser, user }) => (
 class HomePage extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      viewJobs: true,
+      viewWatchList: false,
+      viewMyJobs: false,
+    };
   }
   componentDidMount() {}
 
@@ -36,8 +42,8 @@ class HomePage extends Component {
     return (
       <div>
         <Row>
-          <Col sm="12">
-            <Alert color="warning  ">
+          <Col md="12">
+            <Alert color="light  ">
               <FiAlertCircle size="1.2em" />{" "}
               <Link to={routes.ACCOUNT}>
                 Click here to update your profile &rarr;
@@ -46,7 +52,7 @@ class HomePage extends Component {
           </Col>
         </Row>
         <Row>
-          <Col sm="3" className="">
+          <Col md="3" className="">
             <NewJobModal />
 
             <ProfileData data={this.props.user} />
@@ -60,12 +66,17 @@ class HomePage extends Component {
             </ul>
           </Col>
           <Col sm="9" className="">
-            <Jobs />
+          {this.state.viewMyJobs ? <MyJobs /> : <Jobs />}
+
           </Col>
         </Row>
       </div>
     );
   }
+}
+
+const MyJobs = ({user}) => {
+  return <h1>My Jobs</h1>
 }
 
 const mapStateToProps = state => ({

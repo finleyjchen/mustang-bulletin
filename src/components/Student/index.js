@@ -3,6 +3,9 @@ import { db, auth } from "../../firebase";
 import { ListGroup, ListGroupItem, Row, Table, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { FiMail } from "react-icons/fi";
+import withAuthorization from "../Session/withAuthorization";
+import { connect } from "react-redux";
+import { compose } from "recompose";
 class Student extends Component {
   constructor(props) {
     super(props);
@@ -63,4 +66,21 @@ const StudentData = ({ data }) => (
   </div>
 );
 
-export default Student;
+const mapStateToProps = state => ({
+  users: state.userState.users
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSetUsers: users => dispatch({ type: "USERS_SET", users })
+});
+
+const authCondition = authUser => !!authUser;
+
+export default compose(
+  withAuthorization(authCondition),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(Student);
+

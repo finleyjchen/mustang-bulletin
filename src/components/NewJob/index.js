@@ -18,6 +18,10 @@ import {
   ModalFooter
 } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import "react-datepicker/dist/react-datepicker.css";
+import { addJobThunk } from "../../store/actions/"
 
 const NewJobPage = () => (
   <div>
@@ -68,19 +72,20 @@ const INITIAL_STATE = {
   type: 0,
   error: null,
   dateAdded: 0,
-  priceType: 0
+  priceType: 0,
+  deadline: null,
 };
 class NewJobForm extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { ...INITIAL_STATE };
+    this.state = { ...INITIAL_STATE, startDate: moment() };
   }
 
   onSubmit = event => {
-    const { title, description, price, type } = this.state;
+    const { title, description, price, type, deadline } = this.state;
 
-    db.createJob(title, title, description, price, type)
+    addJobThunk(title, title, description, price, type, deadline.format())
       .then(() => {
         this.setState(() => ({ ...INITIAL_STATE }));
       })
@@ -91,11 +96,17 @@ class NewJobForm extends Component {
     event.preventDefault();
   };
 
+  handleChange = date => {
+    this.setState({
+      deadline: date
+    });
+  }
+
   render() {
-    const { title, description, price, type, error } = this.state;
+    const { title, description, price, type, deadline, error } = this.state;
 
     const isInvalid =
-      title === "" || description === "" || price === "" || type === null;
+      title === "" || description === "" || price === "" || type === null; 
 
     return (
       <Form onSubmit={this.onSubmit}>
@@ -166,6 +177,12 @@ class NewJobForm extends Component {
               Providing a service
             </Label>
           </FormGroup>
+          <FormGroup>
+            <Label>
+              Deadline
+            </Label>
+          <DatePicker className="" selected={this.state.deadline}  onChange={this.handleChange} />
+          </FormGroup>
         </ModalBody>
         <ModalFooter>
           <FormGroup>
@@ -179,6 +196,7 @@ class NewJobForm extends Component {
               Add Job
             </Button>
           </FormGroup>
+
         </ModalFooter>
         {error && <p>{error.message}</p>}
       </Form>
@@ -206,7 +224,7 @@ class NewJobModal extends React.Component {
     return (
       <div>
         <button class="btn border btn-new-job w-100" onClick={this.toggle}>
-          Post a Job &rarr;
+          Post a job &rarr;
         </button>
         <Modal
           isOpen={this.state.modal}

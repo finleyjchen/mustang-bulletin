@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { db } from "../../firebase"; // <--- add this line
+import { watchJobAddedEvent, watchJobRemovedEvent } from "../../store/listeners/"
 import withAuthorization from "../Session/withAuthorization";
 import {
   Card,
@@ -26,11 +27,11 @@ import "./index.css";
 import Moment from "react-moment";
 import { FiCalendar } from "react-icons/fi";
 import InputRange from "react-input-range";
+import { getJobsThunk } from "../../store/actions"
 class Jobs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobs: {},
       activeTab: "1",
       searchString: "",
       searchType: "all",
@@ -43,9 +44,7 @@ class Jobs extends Component {
   }
 
   componentDidMount() {
-    db.onceGetJobs().then(snapshot =>
-      this.setState(() => ({ jobs: snapshot.val() }))
-    );
+
   }
 
   handleChange = e => {
@@ -66,15 +65,14 @@ class Jobs extends Component {
   };
 
   render() {
-    let { jobs, searchType, priceRange, sortBy } = this.state,
+    let { searchType, priceRange, sortBy } = this.state,
       searchString = this.state.searchString.trim().toLowerCase();
     let { min, max } = priceRange;
-
+    let jobs = this.props.jobs;
     if (!jobs) {
       return <div>Loading</div>;
     }
     if (searchString.length > 0) {
-      console.log(Object.keys(jobs));
       jobs = Object.keys(jobs)
         .filter(function(key) {
           if (jobs[key].title.toLowerCase().match(searchString))
@@ -197,16 +195,18 @@ class Jobs extends Component {
           {Object.keys(jobs).map(key => (
             <Link className="job" key={key} to={`jobs/${jobs[key].url}`}>
               <div className="float-left clearfix w-75">
-                <h4>{key}</h4>
+                <TypeBadge typeValue={jobs[key].type} page="jobs" />
+                <span className=" h5 mb-0">{jobs[key].title}</span>
                 {/*jobs[key].description.substring(0, 50)*/}
-                <br />
-                <p>
+                <small className="job-meta d-block">
                   {" "}
                   <FiCalendar /> <Moment fromNow>
                     {jobs[key].datePosted}
                   </Moment>{" "}
-                  by {jobs[key].user} <TypeBadge typeValue={jobs[key].type} />
-                </p>
+                  by {jobs[key].user}
+                  {" "}  • Deadline: 
+                  <Moment format='MM/DD/YYYY'>{jobs[key].deadline}</Moment>
+                </small>
               </div>
               <div className="float-right clearfix w-25">
                 <p className="text-right h1 green">${jobs[key].price}</p>
@@ -218,13 +218,27 @@ class Jobs extends Component {
     );
   }
 }
-export const TypeBadge = ({ typeValue }) => {
-  if (typeValue == 1) {
-    return <Badge color="success">Service</Badge>;
+export const TypeBadge = ({ typeValue, page }) => {
+  console.log(page);
+  if (page == "jobs") {
+    if (typeValue == 1) {
+      return <Badge className="type-badge" color="success">Service</Badge>;
+    }
+    if (typeValue == 0) {
+      return <Badge className="type-badge" color="warning">Help Wanted</Badge>;
+    }
   }
-  if (typeValue == 0) {
-    return <Badge color="warning">Help Wanted</Badge>;
+
+  if (page == "job") {
+    if (typeValue == 1) {
+      return <Badge color="success">Service</Badge>;
+    }
+    if (typeValue == 0) {
+      return <Badge color="warning">Help Wanted</Badge>;
+    }
   }
+
+
   return <Badge>No Type</Badge>;
 };
 
@@ -233,6 +247,7 @@ const JobList = ({ jobs }) => (
     {Object.keys(jobs).map(key => (
       <Link className="job" key={key} to={`jobs/${jobs[key].url}`}>
         <div className="float-left clearfix w-75">
+          <TypeBadge typeValue={jobs[key].type} page="jobs" />
           <h4>{key}</h4>
           {/*jobs[key].description.substring(0, 50)*/}
           <hr />
@@ -240,7 +255,7 @@ const JobList = ({ jobs }) => (
             {" "}
             <FiCalendar />{" "}
             <Moment format="MMM DD">{jobs[key].datePosted}</Moment> by{" "}
-            {jobs[key].user} <TypeBadge typeValue={jobs[key].type} />
+            {jobs[key].user}
           </p>
         </div>
         <div className="float-right clearfix w-25">
@@ -251,12 +266,17 @@ const JobList = ({ jobs }) => (
   </div>
 );
 const mapStateToProps = state => ({
-  users: state.userState.users
+  jobs: state.jobsState
 });
 
-const mapDispatchToProps = dispatch => ({
-  onSetUsers: users => dispatch({ type: "USERS_SET", users })
-});
+const mapDispatchToProps = dispatch => {
+  dispatch(getJobsThunk())
+  watchJobAddedEvent(dispatch)
+  watchJobRemovedEvent(dispatch)
+  return {
+
+  }
+};
 
 const authCondition = authUser => !!authUser;
 

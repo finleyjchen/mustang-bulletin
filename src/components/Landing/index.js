@@ -1,23 +1,25 @@
 import React from "react";
 import SignUpForm from "../SignUp";
-import { Jumbotron, Button, Col, Row, Card, Container } from "reactstrap";
+import { Jumbotron, Button, Col, Row, Card, Container, Form, Input, Label, InputGroup } from "reactstrap";
 import { Link } from "react-router-dom";
+
 import * as routes from "../../constants/routes";
-import { FiLock, FiBriefcase, FiTrendingUp, FiGitMerge } from "react-icons/fi";
+import { FiLock, FiBriefcase, FiTrendingUp, FiGitMerge, FiDollarSign } from "react-icons/fi";
 import "./index.css";
 const LandingPage = () => (
   <Container className="bg-white">
     <Row>
       <div className="w-100 bg-cp p-4">
-        <h1 className="display-3 font-weight-bold">Mustang Bulletin        <Link className="w-100-sm btn btn-lg btn-outline-white float-right mr-5 mt-4" to={routes.SIGN_UP}>Create your Account  &rarr;</Link>
+        <h1 className="display-3 font-weight-bold">Mustang Bulletin        
 </h1>
-
         <small />
-        <p className="lead">A local job board for students, by students.</p>
+        <p className="lead">A local gig board for students, by students.</p>
       </div>
 
       <div className="w-100 m-auto text-center py-5 bg-white">
-        <p className="lead">As a student at Cal Poly, you are surrounded by all kinds of valuable skill and talent.</p>
+<Form className="w-50 m-auto"><Label>Enter your email to sign up for the beta release</Label><InputGroup><Input type="email" placeholder="example@calpoly.edu"/><Button>Sign up</Button></InputGroup></Form>
+<br></br>
+        <p className="lead mb-0 mt-4">As a student at Cal Poly, you are surrounded by all kinds of valuable skill and talent.</p>
         <p className="h2">Use Mustang Bulletin to share your skills and make money.</p>
         <br />
         </div>
@@ -51,7 +53,7 @@ const LandingPage = () => (
 
       </Col>
       <Col sm={{ size: '4', offset: 1}}>
-      <h3><FiBriefcase /> Get paid</h3>
+      <h3><FiDollarSign /> Get paid</h3>
       <p>Get paid while helping another classmate, at any rate you choose.  </p>
       </Col>
 

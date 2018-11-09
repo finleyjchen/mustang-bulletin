@@ -53,7 +53,7 @@ export const getJob = title =>
     .equalTo(title)
     .once("value");
 
-export const createJob = (id, title, description, price, type) =>
+export const createJob = (id, title, description, price, type, deadline) =>
   db.ref(`jobs/${id}`).set({
     title,
     description,
@@ -64,5 +64,6 @@ export const createJob = (id, title, description, price, type) =>
       0,
       auth.currentUser.email.lastIndexOf("@")
     ),
-    datePosted: moment().format()
+    datePosted: moment().format(),
+    deadline
   });
